@@ -58,8 +58,8 @@ class Calculator(
 
     private fun evaluate(operation: Char, numSb: StringBuilder, stack: Stack<String>): Double {
         return when (operation) {
-            Operator.Add.symbol -> addOperation.compute(numSb.toString().toDouble(), 0.0)
-            Operator.Subtract.symbol -> subtractOperation.compute(numSb.toString().toDouble(), 0.0)
+            Operator.Add.symbol -> addOperation.compute(0.0, numSb.toString().toDouble())
+            Operator.Subtract.symbol -> subtractOperation.compute(0.0, numSb.toString().toDouble())
             Operator.Multiply.symbol -> multiplyOperation.compute(stack.pop().toDouble(), numSb.toString().toDouble())
             Operator.Divide.symbol -> divideOperation.compute(stack.pop().toDouble(), numSb.toString().toDouble())
             Operator.Remainder.symbol -> remainderOperation.compute(stack.pop().toDouble(), numSb.toString().toDouble())
