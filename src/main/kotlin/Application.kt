@@ -1,11 +1,17 @@
 import domain.Calculator
-import domain.CalculatorController
-import domain.IOHandler
+import controller.CalculatorController
+import domain.ExpressionParser
+import presentation.IOHandler
 
 fun main() {
-    val calculator = Calculator()
+    val calculator = createCalculator()
     val ioHandler = IOHandler()
     val calculatorController = CalculatorController(ioHandler, calculator)
 
     calculatorController.start()
+}
+
+private fun createCalculator() : Calculator {
+    val expressionParser = ExpressionParser()
+    return Calculator(expressionParser)
 }

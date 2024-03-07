@@ -1,3 +1,6 @@
+# 피드백 받고 싶은 부분!
+- Operation을 상속하는 클래스에서 compute를 구현할 때, checkOperatorIsSame 함수를 반드시 호출하도록 강제하는 방법이 궁금합니다.
+
 # 기능목록
 
 ### 도메인
@@ -19,9 +22,9 @@ ___
     - 곱하기 연산을 담당한다.
 - DivideOperation
     - 나눗셈 연산을 담당한다.
-- RemainerOperation
+- RemainderOperation
     - 나머지 연산을 담당한다.
-- StatementParser
+- ExpressionParser
     - 문자열을 계산식에 필요한 값으로 분리한 후 리스트로 반환한다.
     - Calculator가 리스트에 담긴 순서에 따라 순차적으로 연산할 수 있도록 정렬한다.
     - 계산식이 올바르지 않으면 IllegalArgumentException을 던진다.
@@ -36,7 +39,7 @@ ___
 - Operator
     - 지원하는 연산자 char를 의미하는 Enum class
 - Expression
-    - 계산에 필요한 값들을 가지고 있는 data class
+    - 계산에 필요한 값들을 가지고 있는 model class
     - Expression이 Expression을 포함할 수 있다. -> 괄호 대응
 
 ### 테스트
@@ -54,6 +57,7 @@ ___
 - [ ] 연산 클래스들을 AbstractOperation라는 클래스명으로 만들어 사용하여 추상화하고 Calculator 클래스의 내부 코드를 변경한다.
 
 ## 확인사항
+- [x] Int 뿐만 아니라 Double 같은 실수를 입력받도록 수정하기
 
 - [ ] SOLID 원칙을 준수했는가?
 - [ ] MVC 패턴에 따라 구현했는가?
