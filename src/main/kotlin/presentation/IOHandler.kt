@@ -16,6 +16,7 @@ class IOHandler {
         when (messageCategory) {
             MessageCategory.FINISH -> println(END_PROGRAM)
             MessageCategory.GET_INPUT -> println(TYPE_INPUT)
+            MessageCategory.INPUT_IS_NOT_VALID -> println(EXPRESSION_IS_NOT_CORRECT)
         }
     }
 
