@@ -42,6 +42,18 @@ class InputValidatorTest {
         assertThat(actual).isEqualTo(expected)
     }
 
+    @ParameterizedTest
+    @ValueSource(strings = ["2.", "2+", "2-", "2/", "2*", "2%", "2)", "2("])
+    @DisplayName("입력한 계산식의 끝이 올바르지 않은 경우 null을 리턴한다")
+    fun `test for end of input`(input: String) {
+        // when
+        val actual = validator.checkValidAndModify(input)
+
+        // then
+        val expected = null
+        assertThat(actual).isEqualTo(expected)
+    }
+
     @Test
     fun `) 다음에 숫자가 오는 경우 null을 리턴한다`() {
         // given

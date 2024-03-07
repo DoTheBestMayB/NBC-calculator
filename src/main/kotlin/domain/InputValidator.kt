@@ -62,7 +62,7 @@ class InputValidator {
             }
             sb.append(c)
         }
-        if (bracketNum != 0) {
+        if (bracketNum != 0 || beforeChar in allowedOperator || beforeChar == '.') {
             return null
         }
         return sb.toString()
