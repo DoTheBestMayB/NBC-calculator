@@ -24,7 +24,7 @@ class Calculator(
         var operation = '+'
 
         for (currentChar in s) {
-            if (currentChar.isDigit()) {
+            if (currentChar.isDigit() || currentChar == '.') {
                 numSb.append(currentChar)
             } else if (currentChar == '(') {
                 stack.push(operation.toString())

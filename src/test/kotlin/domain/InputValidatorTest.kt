@@ -2,6 +2,7 @@ package domain
 
 import org.junit.jupiter.api.BeforeEach
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.MethodSource
@@ -17,7 +18,45 @@ class InputValidatorTest {
     }
 
     @Test
-    fun `) 다음에 숫자가 오는 경우 false를 리턴한다`() {
+    fun `소숫점을 규칙에 맞게 입력한 경우 보정된 문자열을 반환한다`() {
+        // given
+        val input = "-2.3+(3.4*2)+0.2"
+
+        // when
+        val actual = validator.checkValidAndModify(input)
+
+        // then
+        val expected = "-2.3+(3.4*2)+0.2"
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = ["1..2+3", "1.2.+3", "1.2..3", "-1.3.", "-1.3..", "1+(.4+5)"])
+    @DisplayName("소숫점을 규칙에 맞게 입력하지 않은 경우 null을 반환한다")
+    fun `test for wrong decimal position`(input: String) {
+        // when
+        val actual = validator.checkValidAndModify(input)
+
+        // then
+        val expected = null
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @Test
+    fun `소숫점을 규칙에 맞게 입력하지 않은 경우 보정된 문자열을 반환한다`() {
+        // given
+        val input = "2.3+(3.4*2)+2"
+
+        // when
+        val actual = validator.checkValidAndModify(input)
+
+        // then
+        val expected = "2.3+(3.4*2)+2"
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @Test
+    fun `) 다음에 숫자가 오는 경우 null을 리턴한다`() {
         // given
         val input = "2+(65)67"
 
@@ -28,12 +67,12 @@ class InputValidatorTest {
         val expected = null
         assertThat(actual).isEqualTo(expected)
     }
-    
+
     @Test
-    fun `부호 다음에 )가 오는 경우 false를 리턴한다`() {
+    fun `부호 다음에 )가 오는 경우 null을 리턴한다`() {
         // given
         val input = "2+(+)+2"
-        
+
         // when
         val actual = validator.checkValidAndModify(input)
 
@@ -43,7 +82,7 @@ class InputValidatorTest {
     }
 
     @Test
-    fun `숫자 다음에 (가 오는 경우 false를 리턴한다`() {
+    fun `숫자 다음에 (가 오는 경우 null을 리턴한다`() {
         // given
         val input = "2+(56(24))"
 
@@ -67,7 +106,7 @@ class InputValidatorTest {
         val expected = "227+3*(0-3*2+2)-214"
         assertThat(actual).isEqualTo(expected)
     }
-    
+
     @ParameterizedTest
     @MethodSource("createInputAndModifiedOutput")
     fun `조건식에 맞는 연산식을 입력하면 null이 아닌 보정된 문자열을 반환한다`(data: Pair<String, String>) {
@@ -92,5 +131,6 @@ class InputValidatorTest {
                 "2+(-(+3*2)+2)" to "2+(0-(0+3*2)+2)",
             )
         }
+
     }
 }

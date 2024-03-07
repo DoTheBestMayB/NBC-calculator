@@ -143,4 +143,17 @@ class CalculatorTest {
         assertThat(actual).isEqualTo(expected)
     }
 
+    @DisplayName("-2.3+(3.4*2)+0.2를 입력하면 4.7을 반환한다")
+    @Test
+    fun `정상적인 소숫점 연산식을 입력하면 계산식을 반환한다`() {
+        // given
+        val input = "-2.3+(3.4*2)+0.2"
+
+        // when
+        val actual = calculator.calculate(input)
+
+        // then
+        val expected = 4.7
+        assertThat(actual).isEqualTo(expected)
+    }
 }
