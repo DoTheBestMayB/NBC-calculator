@@ -26,7 +26,7 @@ class InputValidatorTest {
         val actual = validator.checkValidAndModify(input)
 
         // then
-        val expected = "-2.3+(3.4*2)+0.2"
+        val expected = "0-2.3+(3.4*2)+0.2"
         assertThat(actual).isEqualTo(expected)
     }
 
@@ -43,22 +43,22 @@ class InputValidatorTest {
     }
 
     @Test
-    fun `소숫점을 규칙에 맞게 입력하지 않은 경우 보정된 문자열을 반환한다`() {
+    fun `) 다음에 숫자가 오는 경우 null을 리턴한다`() {
         // given
-        val input = "2.3+(3.4*2)+2"
+        val input = "2+(65)67"
 
         // when
         val actual = validator.checkValidAndModify(input)
 
         // then
-        val expected = "2.3+(3.4*2)+2"
+        val expected = null
         assertThat(actual).isEqualTo(expected)
     }
 
     @Test
-    fun `) 다음에 숫자가 오는 경우 null을 리턴한다`() {
+    fun `첫 입력값으로 --가 연속으로 나올 경우 null을 리턴한다`() {
         // given
-        val input = "2+(65)67"
+        val input = "--100"
 
         // when
         val actual = validator.checkValidAndModify(input)
