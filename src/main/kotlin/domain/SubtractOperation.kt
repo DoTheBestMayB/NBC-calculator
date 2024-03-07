@@ -3,7 +3,7 @@ package domain
 import model.Operator
 import model.Term
 
-data object SubtractOperation : Operation {
+class SubtractOperation : Operation {
     override val symbol: Operator
         get() = Operator.Subtract
 
@@ -11,5 +11,13 @@ data object SubtractOperation : Operation {
         checkOperatorIsSame(term)
 
         return term.leftOperand - term.rightOperand
+    }
+
+    override fun equals(other: Any?): Boolean {
+        return this === other
+    }
+
+    override fun hashCode(): Int {
+        return System.identityHashCode(this)
     }
 }

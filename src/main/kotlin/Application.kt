@@ -1,6 +1,5 @@
-import domain.Calculator
 import controller.CalculatorController
-import domain.ExpressionParser
+import domain.*
 import presentation.IOHandler
 
 fun main() {
@@ -11,7 +10,19 @@ fun main() {
     calculatorController.start()
 }
 
-private fun createCalculator() : Calculator {
+private fun createCalculator(): Calculator {
     val expressionParser = ExpressionParser()
-    return Calculator(expressionParser)
+    val addOperation = AddOperation()
+    val subtractOperation = SubtractOperation()
+    val multiplyOperation = MultiplyOperation()
+    val divideOperation = DivideOperation()
+    val remainderOperation = RemainderOperation()
+    return Calculator(
+        expressionParser,
+        addOperation,
+        subtractOperation,
+        multiplyOperation,
+        divideOperation,
+        remainderOperation,
+    )
 }
