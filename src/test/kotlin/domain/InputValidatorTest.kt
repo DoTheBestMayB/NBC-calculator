@@ -54,6 +54,19 @@ class InputValidatorTest {
         val expected = null
         assertThat(actual).isEqualTo(expected)
     }
+
+    @Test
+    fun `공백을 포함하는 조건에 맞는 연산식을 입력하면 공백을 없앤 보정된 문자열을 반환한다`() {
+        // given
+        val input = "2 2 7 + 3      *(-3*2+2)-2    1 4"
+
+        // when
+        val actual = validator.checkValidAndModify(input)
+
+        // then
+        val expected = "227+3*(0-3*2+2)-214"
+        assertThat(actual).isEqualTo(expected)
+    }
     
     @ParameterizedTest
     @MethodSource("createInputAndModifiedOutput")
