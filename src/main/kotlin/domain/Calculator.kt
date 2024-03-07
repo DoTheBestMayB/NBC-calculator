@@ -1,6 +1,6 @@
 package domain
 
-import model.Expression
+import domain.operation.*
 import model.Operator
 import java.util.*
 
@@ -12,7 +12,7 @@ class Calculator(
     private val remainderOperation: RemainderOperation,
 ) {
 
-    private val operator = Operator.entries.map { it.symbol }
+    private val operator = Operator.entries.map { it.symbol.toString() }
 
     fun calculate(s: String): Double {
         if (s.isBlank()) {
@@ -30,29 +30,24 @@ class Calculator(
                 stack.push(operation.toString())
                 operation = '+'
             } else if (!currentChar.isWhitespace()) {
-                when (operation) {
-                    '+', '-' -> stack.push(evaluate(operation, numSb.toString(), "0"))
-                    '*', '/', '%' -> stack.push(evaluate(operation, stack.pop(), numSb.toString()))
-                }
+                val num = evaluate(operation, numSb, stack)
+                stack.push(num.toString())
                 numSb.clear()
                 operation = currentChar
 
                 if (currentChar == ')') {
-                    var term = 0
+                    var term = 0.0
                     while (stack.peek() !in operator) {
-                        term += stack.pop().toInt()
+                        term += stack.pop().toDouble()
                     }
-
                     numSb.append(term)
                     operation = stack.pop()[0]
                 }
             }
         }
 
-        when (operation) {
-            '+', '-' -> stack.push(evaluate(operation, numSb.toString(), "0"))
-            '*', '/', '%' -> stack.push(evaluate(operation, stack.pop(), numSb.toString()))
-        }
+        val num = evaluate(operation, numSb, stack)
+        stack.push(num.toString())
 
         var result = 0.0
         while (stack.isNotEmpty()) {
@@ -61,17 +56,14 @@ class Calculator(
         return result
     }
 
-    private fun evaluate(operator: Char, first: String, second: String): String {
-        val x = first.toInt()
-        val y = second.toInt()
-
-        return when (operator) {
-            '+' -> first
-            '-' -> (-x).toString()
-            '*' -> (x * y).toString()
-            '/' -> (x / y).toString()
-            '%' -> (x % y).toString()
-            else -> throw IllegalArgumentException()
+    private fun evaluate(operation: Char, numSb: StringBuilder, stack: Stack<String>): Double {
+        return when (operation) {
+            Operator.Add.symbol -> addOperation.compute(numSb.toString().toDouble(), 0.0)
+            Operator.Subtract.symbol -> subtractOperation.compute(numSb.toString().toDouble(), 0.0)
+            Operator.Multiply.symbol -> multiplyOperation.compute(stack.pop().toDouble(), numSb.toString().toDouble())
+            Operator.Divide.symbol -> divideOperation.compute(stack.pop().toDouble(), numSb.toString().toDouble())
+            Operator.Remainder.symbol -> remainderOperation.compute(stack.pop().toDouble(), numSb.toString().toDouble())
+            else -> throw IllegalArgumentException("지원하지 않는 연산자입니다.")
         }
     }
 }

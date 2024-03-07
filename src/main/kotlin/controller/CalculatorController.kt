@@ -1,7 +1,7 @@
 package controller
 
-import model.MessageCategory
 import domain.Calculator
+import model.MessageCategory
 import presentation.IOHandler
 
 class CalculatorController(

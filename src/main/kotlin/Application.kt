@@ -1,5 +1,6 @@
 import controller.CalculatorController
-import domain.*
+import domain.Calculator
+import domain.operation.*
 import presentation.IOHandler
 
 fun main() {
