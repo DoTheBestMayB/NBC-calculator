@@ -61,7 +61,7 @@ ___
 
 ## Refactor - 선택 구현 기능
 
-- [ ] 연산 클래스들을 AbstractOperation라는 클래스명으로 만들어 사용하여 추상화하고 Calculator 클래스의 내부 코드를 변경한다.
+- [x] 연산 클래스들을 AbstractOperation라는 클래스명으로 만들어 사용하여 추상화하고 Calculator 클래스의 내부 코드를 변경한다.
 
 ## 확인사항
 - [x] Int 뿐만 아니라 Double 같은 실수를 입력받도록 수정하기
