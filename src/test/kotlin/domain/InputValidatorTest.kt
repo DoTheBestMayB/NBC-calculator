@@ -31,7 +31,7 @@ class InputValidatorTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = ["1..2+3", "1.2.+3", "1.2..3", "-1.3.", "-1.3..", "1+(.4+5)"])
+    @ValueSource(strings = ["1..2+3", "1.2.+3", "1.2..3", "-1.3.", "-1.3..", "1+(.4+5)", "(.)"])
     @DisplayName("소숫점을 규칙에 맞게 입력하지 않은 경우 null을 반환한다")
     fun `test for wrong decimal position`(input: String) {
         // when
@@ -53,6 +53,32 @@ class InputValidatorTest {
         val expected = null
         assertThat(actual).isEqualTo(expected)
     }
+
+    @ParameterizedTest
+    @ValueSource(strings = ["(", ")", "(()", "()", "(())", "(3(4))", "(.)", "-(1.2+())+(3)", "-2+(   ) + 7"])
+    @DisplayName("괄호를 잘못 입력하는 경우 null을 리턴한다")
+    fun `test for incorrect input consist of brackets`(input: String) {
+        // when
+        val actual = validator.checkValidAndModify(input)
+
+        // then
+        val expected = null
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest
+    @MethodSource("createInputAboutBrackets")
+    fun `괄호를 정상적으로 입력한 경우 보정된 문자열을 반환한다`(data: Pair<String,String>) {
+        // given
+        val (input, expected) = data
+
+        // when
+        val actual = validator.checkValidAndModify(input)
+
+        // then
+        assertThat(actual).isEqualTo(expected)
+    }
+
 
     @Test
     fun `) 다음에 숫자가 오는 경우 null을 리턴한다`() {
@@ -141,6 +167,14 @@ class InputValidatorTest {
                 "2+(-3*2)+2" to "2+(0-3*2)+2",
                 "2+(+3*4)" to "2+(0+3*4)",
                 "2+(-(+3*2)+2)" to "2+(0-(0+3*2)+2)",
+            )
+        }
+
+        @JvmStatic
+        fun createInputAboutBrackets(): List<Pair<String, String>> {
+            return listOf(
+                "(1.4)" to "(1.4)",
+                "(1)" to "(1)",
             )
         }
 

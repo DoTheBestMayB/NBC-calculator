@@ -12,6 +12,7 @@ class InputValidator {
         var bracketNum = 0
         var beforeChar = ' '
         var isDotAppeared = false
+        var isNumContained = false
         var correctionChar: Char? = null
 
         for (c in input) {
@@ -23,7 +24,7 @@ class InputValidator {
                     bracketNum++
                 }
                 ')' -> {
-                    if (bracketNum-- <= 0 || beforeChar in allowedOperator || beforeChar == '.') {
+                    if (bracketNum-- <= 0 || beforeChar in allowedOperator || beforeChar == '.' || beforeChar == '(') {
                         return null
                     }
                 }
@@ -52,6 +53,7 @@ class InputValidator {
                     if (beforeChar == ')') { // ) 다음에 숫자를 허용하지 않음
                         return null
                     }
+                    isNumContained = true
                 }
                 else -> return null
             }
@@ -62,7 +64,7 @@ class InputValidator {
             }
             sb.append(c)
         }
-        if (bracketNum != 0 || beforeChar in allowedOperator || beforeChar == '.') {
+        if (bracketNum != 0 || beforeChar in allowedOperator || beforeChar == '.' || isNumContained.not()) {
             return null
         }
         return sb.toString()

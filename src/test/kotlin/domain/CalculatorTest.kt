@@ -5,6 +5,8 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.MethodSource
 
 class CalculatorTest {
 
@@ -155,5 +157,29 @@ class CalculatorTest {
         // then
         val expected = 4.7
         assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest
+    @MethodSource("createInputAboutBracketsWithAnswer")
+    @DisplayName("정상적인 괄호 연산식을 입력하면 연산 결과를 변환한다")
+    fun `test for input with brackets`(data: Pair<String, Double>) {
+        // given
+        val (input, expected) = data
+
+        // when
+        val actual = calculator.calculate(input)
+
+        // then
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    companion object {
+        @JvmStatic
+        fun createInputAboutBracketsWithAnswer(): List<Pair<String, Double>> {
+            return listOf(
+                "(1.4)" to 1.4,
+                "(1)" to 1.0,
+            )
+        }
     }
 }
