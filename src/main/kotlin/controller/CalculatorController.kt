@@ -15,6 +15,9 @@ class CalculatorController(
         var input = getInput()
 
         while (input != null) {
+            if (input == "-1") {
+                break
+            }
             // 입력받은 문자열 유효성 검사
             val modifiedInput = inputValidator.checkValidAndModify(input)
             if (modifiedInput == null) {
