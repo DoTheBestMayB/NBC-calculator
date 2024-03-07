@@ -37,7 +37,7 @@ class InputValidator {
                 '+', '-' -> {
                     if (beforeChar in allowedOperator || beforeChar == '.') { // 연속된 연산자 사용을 허용하지 않음
                         return null
-                    } else if (beforeChar == '(') {
+                    } else if (beforeChar == '(' || beforeChar == ' ') {
                         correctionChar = '0'
                     }
                     isDotAppeared = false
