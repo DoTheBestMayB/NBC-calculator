@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.MethodSource
 import org.junit.jupiter.params.provider.ValueSource
 
 class InputValidatorTest {
@@ -53,15 +54,30 @@ class InputValidatorTest {
         val expected = null
         assertThat(actual).isEqualTo(expected)
     }
-
+    
     @ParameterizedTest
-    @ValueSource(strings = ["2+((56+2)*3)+2", "2+(-3*2)+2", "2+(+3*4)", "2+(-(+3*2)+2)"])
-    fun `조건식에 맞는 연산식을 입력하면 null이 아닌 보정된 문자열을 반환한다`(input: String) {
+    @MethodSource("createInputAndModifiedOutput")
+    fun `조건식에 맞는 연산식을 입력하면 null이 아닌 보정된 문자열을 반환한다`(data: Pair<String, String>) {
+        // given
+        val (input, expected) = data
+
         // when
         val actual = validator.checkValidAndModify(input)
 
         // then
-        val notExpected = null
-        assertThat(actual).isNotEqualTo(notExpected)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    companion object {
+
+        @JvmStatic
+        fun createInputAndModifiedOutput(): List<Pair<String, String>> {
+            return listOf(
+                "2+((56+2)*3)+2" to "2+((56+2)*3)+2",
+                "2+(-3*2)+2" to "2+(0-3*2)+2",
+                "2+(+3*4)" to "2+(0+3*4)",
+                "2+(-(+3*2)+2)" to "2+(0-(0+3*2)+2)",
+            )
+        }
     }
 }
