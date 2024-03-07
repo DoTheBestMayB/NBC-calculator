@@ -1,6 +1,6 @@
 package domain.operation
 
-class RemainderOperation : Operation {
+class RemainderOperation : AbstractOperation() {
 
     override fun compute(leftOperand: Double, rightOperand: Double): Double {
 
