@@ -13,11 +13,11 @@ class CalculatorController(
         var input = getInput()
 
         while (input != null) {
-            // 입력받은 문자열을 계산식으로 변환한다.
-            val expression = calculator.parse(input)
+            // 입력받은 문자열 유효성 검사
+//            val expression = calculator.parse(input)
 
             // 계산식을 연산하여 결괏값을 구한다.
-            val result = calculator.calculate(expression)
+            val result = calculator.calculate(input)
 
             // 사용자에게 결괏값을 보여준다.
             ioHandler.showResult(result)

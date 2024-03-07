@@ -7,4 +7,8 @@ package model
  */
 data class Expression(
     val terms: List<Term>
-)
+) {
+    companion object {
+        val empty = Expression(emptyList())
+    }
+}

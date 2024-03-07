@@ -11,14 +11,12 @@ fun main() {
 }
 
 private fun createCalculator(): Calculator {
-    val expressionParser = ExpressionParser()
     val addOperation = AddOperation()
     val subtractOperation = SubtractOperation()
     val multiplyOperation = MultiplyOperation()
     val divideOperation = DivideOperation()
     val remainderOperation = RemainderOperation()
     return Calculator(
-        expressionParser,
         addOperation,
         subtractOperation,
         multiplyOperation,
